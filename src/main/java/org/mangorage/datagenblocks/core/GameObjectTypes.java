@@ -12,13 +12,15 @@ import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
+import org.mangorage.datagenblocks.core.misc.Constants;
+import org.mangorage.datagenblocks.core.types.CatVariantTypes;
 import org.mangorage.datagenblocks.core.types.CreativeModeTabTypes;
 import org.mangorage.datagenblocks.core.types.ItemTypes;
-
-import static org.mangorage.datagenblocks.core.misc.Constants.MOD_ID;
+import org.mangorage.datagenblocks.core.types.FrogVariantTypes;
 
 public final class GameObjectTypes {
-    public static final ResourceKey<Registry<GameObjectType<?, ?>>> KEY = ResourceKey.createRegistryKey(ResourceLocation.fromNamespaceAndPath("datagenblocks", "game_object_types"));
+    public static final ResourceKey<Registry<GameObjectType<?, ?>>> KEY = Constants.createRegistryKey("game_object_types");
+
     public static final Registry<GameObjectType<?, ?>> GAME_OBJECT_TYPES = FabricRegistryBuilder
             .createSimple(KEY)
             .attribute(RegistryAttribute.MODDED)
@@ -37,36 +39,32 @@ public final class GameObjectTypes {
 
     public static void bootstrap() {
         // Example of post-processing
-        register(BuiltInRegistries.BLOCK_TYPE, BuiltInRegistries.BLOCK, PostData.CODEC, (id, b, d) -> {
+        register(BuiltInRegistries.BLOCK_TYPE, BuiltInRegistries.BLOCK, false, PostData.CODEC, (id, b, d) -> {
             System.out.println("OUTPUT -> " + d.id());
             BlockRenderLayerMap.INSTANCE.putBlock(b, RenderType.cutout());
         });
 
-
         // Normal, nothing occurs after registration here...
-        register(ItemTypes.TYPES, BuiltInRegistries.ITEM);
-        register(CreativeModeTabTypes.TYPES, BuiltInRegistries.CREATIVE_MODE_TAB);
+        register(ItemTypes.TYPES, BuiltInRegistries.ITEM, false);
+        register(CreativeModeTabTypes.TYPES, BuiltInRegistries.CREATIVE_MODE_TAB, false);
+        register(CatVariantTypes.TYPES, BuiltInRegistries.CAT_VARIANT, true);
+        register(FrogVariantTypes.TYPES, BuiltInRegistries.FROG_VARIANT, true);
     }
 
-    private static <T, P> void register(Registry<MapCodec<? extends T>> registryType, Registry<T> registry, Codec<P> postCodec, IPostRegistration<ResourceLocation, T, P> postRegistration) {
+
+    private static <T, P> void register(Registry<MapCodec<? extends T>> registryType, Registry<T> registry, boolean key, Codec<P> postCodec, IPostRegistration<ResourceLocation, T, P> postRegistration) {
         Registry.register(
                 GAME_OBJECT_TYPES,
-                ResourceLocation.fromNamespaceAndPath(
-                        MOD_ID,
-                        registry.key().location().getPath()
-                ),
-                new GameObjectType<>(registryType, registry, postCodec, postRegistration)
+                Constants.create(registry.key().location().getPath()),
+                new GameObjectType<>(registryType, registry, key, postCodec, postRegistration)
         );
     }
 
-    private static <T> void register(Registry<MapCodec<? extends T>> registryType, Registry<T> registry) {
+    private static <T> void register(Registry<MapCodec<? extends T>> registryType, Registry<T> registry, boolean key) {
         Registry.register(
                 GAME_OBJECT_TYPES,
-                ResourceLocation.fromNamespaceAndPath(
-                        MOD_ID,
-                        registry.key().location().getPath()
-                ),
-                new GameObjectType<>(registryType, registry)
+                Constants.create(registry.key().location().getPath()),
+                new GameObjectType<>(registryType, registry, key)
         );
     }
 

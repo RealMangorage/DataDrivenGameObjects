@@ -1,14 +1,13 @@
 package org.mangorage.datagenblocks;
 
-import com.mojang.serialization.MapCodec;
-import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.loader.api.FabricLoader;
-import net.minecraft.world.item.CreativeModeTab;
-import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.effect.MobEffect;
+import org.mangorage.datagenblocks.core.types.CatVariantTypes;
 import org.mangorage.datagenblocks.core.types.CreativeModeTabTypes;
 import org.mangorage.datagenblocks.core.types.ItemTypes;
 import org.mangorage.datagenblocks.core.GameObjectTypes;
+import org.mangorage.datagenblocks.core.types.FrogVariantTypes;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -21,6 +20,8 @@ public class DatagenBlocks implements ModInitializer {
         GameObjectTypes.bootstrap();
         ItemTypes.bootstrap();
         CreativeModeTabTypes.bootstrap();
+        CatVariantTypes.bootstrap();
+        FrogVariantTypes.bootstrap();
 
         Path directory = FabricLoader.getInstance().getConfigDir().getParent().resolve("datagenblocks").resolve("data");
 
@@ -37,25 +38,7 @@ public class DatagenBlocks implements ModInitializer {
             // Then Register
             GameObjectTypes.registerAll();
 
-            MapCodec<CreativeModeTab> TAB = RecordCodecBuilder.mapCodec(
-                    i -> i.group(
-                            ItemStack.CODEC.fieldOf("item").forGetter(a -> null)
-                    ).apply(i, a -> {
-                        return CreativeModeTab.builder(CreativeModeTab.Row.TOP, 0)
-                                .icon(() -> a)
-                                .displayItems(new CreativeModeTab.DisplayItemsGenerator() {
-                                    @Override
-                                    public void accept(CreativeModeTab.ItemDisplayParameters itemDisplayParameters, CreativeModeTab.Output output) {
-                                        output.accept(a);
-                                    }
-                                })
-                                .build();
-                    })
-            );
-
-            CreativeModeTab.builder(CreativeModeTab.Row.TOP, 0)
-
-                    .build();
+            var a = 1;
         }
     }
 

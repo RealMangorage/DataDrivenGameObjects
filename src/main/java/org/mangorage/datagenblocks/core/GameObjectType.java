@@ -7,6 +7,7 @@ import com.mojang.serialization.JavaOps;
 import com.mojang.serialization.MapCodec;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.core.Registry;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 
 import java.nio.file.Files;
@@ -27,17 +28,19 @@ public final class GameObjectType<T, P> {
 
     private final Codec<P> postCodec;
     private final IPostRegistration<ResourceLocation, T, P> postRegistration;
+    private final boolean createKey;
 
-    public GameObjectType(Registry<MapCodec<? extends T>> registryType, Registry<T> registry, Codec<P> postCodec, IPostRegistration<ResourceLocation, T, P> postRegistration) {
+    public GameObjectType(Registry<MapCodec<? extends T>> registryType, Registry<T> registry, boolean createResourceKey, Codec<P> postCodec, IPostRegistration<ResourceLocation, T, P> postRegistration) {
         this.typeRegistry = registryType;
         this.registry = registry;
+        this.createKey = createResourceKey;
         this.id = registry.key().location().getPath();
         this.postCodec = postCodec;
         this.postRegistration = postRegistration;
     }
 
-    public GameObjectType(Registry<MapCodec<? extends T>> registryType, Registry<T> registry) {
-        this(registryType, registry, null, null);
+    public GameObjectType(Registry<MapCodec<? extends T>> registryType, Registry<T> registry, boolean createResourceKey) {
+        this(registryType, registry, createResourceKey, null, null);
     }
 
 
@@ -61,11 +64,21 @@ public final class GameObjectType<T, P> {
     public void registerAll() {
         getEntries().forEach((id, obj) -> {
             typeRegistry.get(obj.getType(this)).ifPresent(codecReference -> {
-                var result = Registry.register(
-                        registry,
-                        id,
-                        codecReference.value().codec().decode(JavaOps.INSTANCE, obj.getData(this)).result().get().getFirst()
-                );
+                T result = null;
+
+                if (!createKey) {
+                    result = Registry.register(
+                            registry,
+                            id,
+                            codecReference.value().codec().decode(JavaOps.INSTANCE, obj.getData(this)).result().get().getFirst()
+                    );
+                } else {
+                    result = Registry.register(
+                            registry,
+                            ResourceKey.create(registry.key(), id),
+                            codecReference.value().codec().decode(JavaOps.INSTANCE, obj.getData(this)).result().get().getFirst()
+                    );
+                }
                 if (postCodec != null)
                     postRegistration.apply(id, result, postCodec.decode(JavaOps.INSTANCE, obj.getPostData(this)).result().get().getFirst());
             });
@@ -89,6 +102,8 @@ public final class GameObjectType<T, P> {
                                             GameObjectEntry.class
                                     )
                             );
+
+                            var a = 1;
 
                         } catch (Exception e) {
                             throw new IllegalStateException(e);

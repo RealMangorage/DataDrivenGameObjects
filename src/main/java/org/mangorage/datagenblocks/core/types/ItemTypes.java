@@ -8,11 +8,10 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import org.mangorage.datagenblocks.core.codecs.ItemCodecs;
+import org.mangorage.datagenblocks.core.misc.Constants;
 
 public final class ItemTypes {
-    public static final ResourceKey<Registry<MapCodec<? extends Item>>> KEY = ResourceKey.createRegistryKey(
-            ResourceLocation.fromNamespaceAndPath("datagenblocks", "item_types")
-    );
+    public static final ResourceKey<Registry<MapCodec<? extends Item>>> KEY = Constants.createRegistryKey("item_types");
 
     public static final Registry<MapCodec<? extends Item>> TYPES = FabricRegistryBuilder
             .createSimple(KEY)
@@ -22,7 +21,7 @@ public final class ItemTypes {
     public static void bootstrap() {
         Registry.register(
                 TYPES,
-                ResourceLocation.fromNamespaceAndPath("datagenblocks", "blockitem"),
+                Constants.create("blockitem"),
                 ItemCodecs.BLOCK_ITEM
         );
     }

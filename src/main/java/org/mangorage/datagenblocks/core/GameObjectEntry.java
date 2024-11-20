@@ -26,8 +26,8 @@ public record GameObjectEntry(
                 parent,
                 entry,
                 type,
-                data,
-                extra
+                data == null ? Map.of() : data,
+                extra == null ? Map.of() : extra
         );
     }
 

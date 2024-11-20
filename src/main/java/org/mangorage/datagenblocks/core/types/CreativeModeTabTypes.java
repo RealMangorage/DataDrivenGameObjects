@@ -7,21 +7,17 @@ import net.fabricmc.fabric.api.event.registry.RegistryAttribute;
 import net.minecraft.core.Registry;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.ExtraCodecs;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
+import org.mangorage.datagenblocks.core.misc.Constants;
 import org.mangorage.datagenblocks.core.tab.TabDisplayParameter;
 
-import static org.mangorage.datagenblocks.core.misc.Constants.MOD_ID;
-
 public final class CreativeModeTabTypes {
-    public static final ResourceKey<Registry<MapCodec<? extends CreativeModeTab>>> KEY = ResourceKey.createRegistryKey(
-            ResourceLocation.fromNamespaceAndPath("datagenblocks", "creative_mode_types")
-    );
+    public static final ResourceKey<Registry<MapCodec<? extends CreativeModeTab>>> KEY = Constants.createRegistryKey("creative_mode_types");
 
     public static final Registry<MapCodec<? extends CreativeModeTab>> TYPES = FabricRegistryBuilder
-            .createDefaulted(KEY, ResourceLocation.fromNamespaceAndPath(MOD_ID, "default"))
+            .createDefaulted(KEY, Constants.create("default"))
             .attribute(RegistryAttribute.MODDED)
             .buildAndRegister();
 
@@ -48,7 +44,7 @@ public final class CreativeModeTabTypes {
     public static void bootstrap() {
         Registry.register(
                 TYPES,
-                ResourceLocation.fromNamespaceAndPath(MOD_ID, "default"),
+                Constants.create("default"),
                 TAB
         );
     }
