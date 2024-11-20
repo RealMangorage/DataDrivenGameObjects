@@ -29,15 +29,15 @@ public record GameObjectEntry(
         );
     }
 
-    public GameObjectEntry getParent(GameObjectType gameObjType) {
+    public GameObjectEntry getParent(GameObjectType<?> gameObjType) {
         return gameObjType.get(parent);
     }
 
-    public ResourceLocation getType(GameObjectType gameObjType) {
+    public ResourceLocation getType(GameObjectType<?> gameObjType) {
         return parent != null && type == null ? getParent(gameObjType).getType(gameObjType) : type;
     }
 
-    public Map<String, Object> getData(GameObjectType gameObjType) {
+    public Map<String, Object> getData(GameObjectType<?> gameObjType) {
         return parent == null ? data : Util.deepMerge(getParent(gameObjType).getData(gameObjType), data);
     }
 }
