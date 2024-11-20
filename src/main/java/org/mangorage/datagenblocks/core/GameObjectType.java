@@ -10,6 +10,7 @@ import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.HashMap;
@@ -64,23 +65,15 @@ public final class GameObjectType<T, P> {
     public void registerAll() {
         getEntries().forEach((id, obj) -> {
             typeRegistry.get(obj.getType(this)).ifPresent(codecReference -> {
-                T result = null;
+                final T baked = codecReference.value().codec().decode(JavaOps.INSTANCE, obj.getData(this)).result().get().getFirst();
 
-                if (!createKey) {
-                    result = Registry.register(
-                            registry,
-                            id,
-                            codecReference.value().codec().decode(JavaOps.INSTANCE, obj.getData(this)).result().get().getFirst()
-                    );
-                } else {
-                    result = Registry.register(
-                            registry,
-                            ResourceKey.create(registry.key(), id),
-                            codecReference.value().codec().decode(JavaOps.INSTANCE, obj.getData(this)).result().get().getFirst()
-                    );
-                }
+                if (createKey)
+                    Registry.register(registry, ResourceKey.create(registry.key(), id), baked);
+                else
+                    Registry.register(registry, id, baked);
+
                 if (postCodec != null)
-                    postRegistration.apply(id, result, postCodec.decode(JavaOps.INSTANCE, obj.getPostData(this)).result().get().getFirst());
+                    postRegistration.apply(id, baked, postCodec.decode(JavaOps.INSTANCE, obj.getPostData(this)).result().get().getFirst());
             });
         });
     }
@@ -102,14 +95,11 @@ public final class GameObjectType<T, P> {
                                             GameObjectEntry.class
                                     )
                             );
-
-                            var a = 1;
-
-                        } catch (Exception e) {
+                        } catch (IOException e) {
                             throw new IllegalStateException(e);
                         }
                     });
-                } catch (Exception e) {
+                } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
             }

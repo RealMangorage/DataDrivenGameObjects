@@ -10,8 +10,12 @@ import net.fabricmc.fabric.api.event.registry.RegistryAttribute;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.level.block.state.BlockState;
 import org.mangorage.datagenblocks.core.misc.Constants;
 import org.mangorage.datagenblocks.core.types.CatVariantTypes;
 import org.mangorage.datagenblocks.core.types.CreativeModeTabTypes;
@@ -40,8 +44,14 @@ public final class GameObjectTypes {
     public static void bootstrap() {
         // Example of post-processing
         register(BuiltInRegistries.BLOCK_TYPE, BuiltInRegistries.BLOCK, false, PostData.CODEC, (id, b, d) -> {
-            System.out.println("OUTPUT -> " + d.id());
-            BlockRenderLayerMap.INSTANCE.putBlock(b, RenderType.cutout());
+            Registry.register(
+                    BuiltInRegistries.ITEM,
+                    id,
+                    new BlockItem(b,
+                            new Item.Properties()
+                                    .setId(ResourceKey.create(Registries.ITEM, id))
+                    )
+            );
         });
 
         // Normal, nothing occurs after registration here...

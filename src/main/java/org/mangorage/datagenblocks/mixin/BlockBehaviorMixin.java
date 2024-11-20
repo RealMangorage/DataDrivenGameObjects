@@ -19,10 +19,12 @@ public class BlockBehaviorMixin {
     private static final Codec<BlockBehaviour.Properties> PROPERTIES_CODEC = RecordCodecBuilder.create(
             i -> i.group(
                     ExtraCodecs.POSITIVE_FLOAT.optionalFieldOf("destroyTime").forGetter(a -> Optional.of(0f)),
+                    ExtraCodecs.POSITIVE_INT.optionalFieldOf("lightLevel").forGetter(a -> Optional.of(0)),
                     ResourceKey.codec(Registries.BLOCK).fieldOf("id").forGetter(a -> null)
-            ).apply(i, (destroyTime, id) -> {
+            ).apply(i, (destroyTime, lightLevel, id) -> {
                 var properties = BlockBehaviour.Properties.of();
                 destroyTime.ifPresent(properties::destroyTime);
+                lightLevel.ifPresent(l -> properties.lightLevel(state -> l));
                 properties.setId(id);
                 return properties;
             })
