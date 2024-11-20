@@ -5,9 +5,8 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.world.item.CreativeModeTab;
-import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.item.ItemStack;
-import org.mangorage.datagenblocks.core.types.CreativeModTabTypes;
+import org.mangorage.datagenblocks.core.types.CreativeModeTabTypes;
 import org.mangorage.datagenblocks.core.types.ItemTypes;
 import org.mangorage.datagenblocks.core.GameObjectTypes;
 
@@ -21,7 +20,7 @@ public class DatagenBlocks implements ModInitializer {
         // Bootstrap the Registries first!
         GameObjectTypes.bootstrap();
         ItemTypes.bootstrap();
-        CreativeModTabTypes.bootstrap();
+        CreativeModeTabTypes.bootstrap();
 
         Path directory = FabricLoader.getInstance().getConfigDir().getParent().resolve("datagenblocks").resolve("data");
 

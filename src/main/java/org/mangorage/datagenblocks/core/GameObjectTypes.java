@@ -7,7 +7,7 @@ import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
-import org.mangorage.datagenblocks.core.types.CreativeModTabTypes;
+import org.mangorage.datagenblocks.core.types.CreativeModeTabTypes;
 import org.mangorage.datagenblocks.core.types.ItemTypes;
 
 import static org.mangorage.datagenblocks.core.misc.Constants.MOD_ID;
@@ -23,7 +23,7 @@ public final class GameObjectTypes {
     public static void bootstrap() {
         register(BuiltInRegistries.BLOCK_TYPE, BuiltInRegistries.BLOCK);
         register(ItemTypes.TYPES, BuiltInRegistries.ITEM);
-        register(CreativeModTabTypes.TYPES, BuiltInRegistries.CREATIVE_MODE_TAB);
+        register(CreativeModeTabTypes.TYPES, BuiltInRegistries.CREATIVE_MODE_TAB);
     }
 
     private static <T> void register(Registry<MapCodec<? extends T>> registryType, Registry<T> registry) {

@@ -15,7 +15,7 @@ import org.mangorage.datagenblocks.core.tab.TabDisplayParameter;
 
 import static org.mangorage.datagenblocks.core.misc.Constants.MOD_ID;
 
-public final class CreativeModTabTypes {
+public final class CreativeModeTabTypes {
     public static final ResourceKey<Registry<MapCodec<? extends CreativeModeTab>>> KEY = ResourceKey.createRegistryKey(
             ResourceLocation.fromNamespaceAndPath("datagenblocks", "creative_mode_types")
     );
