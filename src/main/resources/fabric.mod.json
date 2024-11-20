@@ -1,0 +1,26 @@
+{
+  "schemaVersion": 1,
+  "id": "datagenblocks",
+  "version": "${version}",
+  "name": "DatagenBlocks",
+  "description": "",
+  "authors": [],
+  "contact": {
+    "repo": "https://github.com/andre/DatagenBlocks"
+  },
+  "license": "MIT",
+  "icon": "assets/datagenblocks/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "org.mangorage.datagenblocks.DatagenBlocks"
+    ]
+  },
+  "mixins": [
+    "datagenblocks.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=${loader_version}",
+    "minecraft": "${minecraft_version}"
+  }
+}
