@@ -2,6 +2,7 @@ package org.mangorage.datagenblocks.core;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.mojang.serialization.Codec;
 import com.mojang.serialization.JavaOps;
 import com.mojang.serialization.MapCodec;
 import net.fabricmc.loader.api.FabricLoader;
@@ -12,8 +13,9 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.function.BiConsumer;
 
-public final class GameObjectType<T> {
+public final class GameObjectType<T, P> {
     public static final Path DIRECTORY = FabricLoader.getInstance().getConfigDir().getParent().resolve("datagenblocks").resolve("data");
     public static final Gson GSON = new GsonBuilder().create();
 
@@ -23,11 +25,22 @@ public final class GameObjectType<T> {
     private final Registry<T> registry;
     private final String id;
 
-    public GameObjectType(Registry<MapCodec<? extends T>> registryType, Registry<T> registry) {
+    private final Codec<P> postCodec;
+    private final IPostRegistration<ResourceLocation, T, P> postRegistration;
+
+    public GameObjectType(Registry<MapCodec<? extends T>> registryType, Registry<T> registry, Codec<P> postCodec, IPostRegistration<ResourceLocation, T, P> postRegistration) {
         this.typeRegistry = registryType;
         this.registry = registry;
         this.id = registry.key().location().getPath();
+        this.postCodec = postCodec;
+        this.postRegistration = postRegistration;
     }
+
+    public GameObjectType(Registry<MapCodec<? extends T>> registryType, Registry<T> registry) {
+        this(registryType, registry, null, null);
+    }
+
+
 
     void addEntry(ResourceLocation id, GameObjectEntry entry) {
         entries.put(id, entry.create(id));
@@ -48,11 +61,13 @@ public final class GameObjectType<T> {
     public void registerAll() {
         getEntries().forEach((id, obj) -> {
             typeRegistry.get(obj.getType(this)).ifPresent(codecReference -> {
-                Registry.register(
+                var result = Registry.register(
                         registry,
                         id,
                         codecReference.value().codec().decode(JavaOps.INSTANCE, obj.getData(this)).result().get().getFirst()
                 );
+                if (postCodec != null)
+                    postRegistration.apply(id, result, postCodec.decode(JavaOps.INSTANCE, obj.getPostData(this)).result().get().getFirst());
             });
         });
     }

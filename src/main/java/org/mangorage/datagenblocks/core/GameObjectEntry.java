@@ -17,7 +17,8 @@ public record GameObjectEntry(
         @JsonAdapter(value = ResourceLocation.Serializer.class)
         ResourceLocation type,
 
-        Map<String, Object> data
+        Map<String, Object> data,
+        Map<String, Object> extra
 ) {
 
     public GameObjectEntry create(ResourceLocation entry) {
@@ -25,19 +26,24 @@ public record GameObjectEntry(
                 parent,
                 entry,
                 type,
-                data
+                data,
+                extra
         );
     }
 
-    public GameObjectEntry getParent(GameObjectType<?> gameObjType) {
+    public GameObjectEntry getParent(GameObjectType<?, ?> gameObjType) {
         return gameObjType.get(parent);
     }
 
-    public ResourceLocation getType(GameObjectType<?> gameObjType) {
+    public ResourceLocation getType(GameObjectType<?, ?> gameObjType) {
         return parent != null && type == null ? getParent(gameObjType).getType(gameObjType) : type;
     }
 
-    public Map<String, Object> getData(GameObjectType<?> gameObjType) {
+    public Map<String, Object> getData(GameObjectType<?, ?> gameObjType) {
         return parent == null ? data : Util.deepMerge(getParent(gameObjType).getData(gameObjType), data);
+    }
+
+    public Map<String, Object> getPostData(GameObjectType<?, ?> gameObjectType) {
+        return parent == null ? extra : Util.deepMerge(getParent(gameObjectType).getPostData(gameObjectType), extra);
     }
 }
