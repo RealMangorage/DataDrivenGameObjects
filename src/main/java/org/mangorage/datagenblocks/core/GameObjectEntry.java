@@ -3,10 +3,13 @@ package org.mangorage.datagenblocks.core;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.JsonAdapter;
 import net.minecraft.resources.ResourceLocation;
+import org.mangorage.datagenblocks.core.misc.TemplateType;
 import org.mangorage.datagenblocks.core.misc.Util;
 import java.util.Map;
 
 public record GameObjectEntry(
+        TemplateType templateType,
+
         @JsonAdapter(value = ResourceLocation.Serializer.class)
         ResourceLocation parent,
 
@@ -23,12 +26,17 @@ public record GameObjectEntry(
 
     public GameObjectEntry create(ResourceLocation entry) {
         return new GameObjectEntry(
+                templateType == null ? TemplateType.GAME_OBJECT : templateType,
                 parent,
                 entry,
                 type,
                 data == null ? Map.of() : data,
                 extra == null ? Map.of() : extra
         );
+    }
+
+    public TemplateType getTemplateType() {
+        return templateType;
     }
 
     public GameObjectEntry getParent(GameObjectType<?, ?> gameObjType) {

@@ -2,7 +2,6 @@ package org.mangorage.datagenblocks;
 
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.loader.api.FabricLoader;
-import net.minecraft.world.effect.MobEffect;
 import org.mangorage.datagenblocks.core.types.CatVariantTypes;
 import org.mangorage.datagenblocks.core.types.CreativeModeTabTypes;
 import org.mangorage.datagenblocks.core.types.ItemTypes;
@@ -37,8 +36,6 @@ public class DatagenBlocks implements ModInitializer {
 
             // Then Register
             GameObjectTypes.registerAll();
-
-            var a = 1;
         }
     }
 

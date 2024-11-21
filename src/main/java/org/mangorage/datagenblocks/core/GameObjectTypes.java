@@ -15,12 +15,16 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.level.block.BlockTypes;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import org.mangorage.datagenblocks.core.misc.Constants;
 import org.mangorage.datagenblocks.core.types.CatVariantTypes;
 import org.mangorage.datagenblocks.core.types.CreativeModeTabTypes;
 import org.mangorage.datagenblocks.core.types.ItemTypes;
 import org.mangorage.datagenblocks.core.types.FrogVariantTypes;
+
+import java.util.Optional;
 
 public final class GameObjectTypes {
     public static final ResourceKey<Registry<GameObjectType<?, ?>>> KEY = Constants.createRegistryKey("game_object_types");
@@ -32,11 +36,13 @@ public final class GameObjectTypes {
 
 
     public record PostData(
-            String id
+            String id,
+            Optional<BlockEntityType<?>> blockEntityType
     ) {
         public static final Codec<PostData> CODEC = RecordCodecBuilder.create(
                 i -> i.group(
-                        PrimitiveCodec.STRING.fieldOf("id").forGetter(PostData::id)
+                        PrimitiveCodec.STRING.fieldOf("id").forGetter(PostData::id),
+                        BuiltInRegistries.BLOCK_ENTITY_TYPE.byNameCodec().optionalFieldOf("blockEntityType").forGetter(PostData::blockEntityType)
                 ).apply(i, PostData::new)
         );
     }
@@ -52,6 +58,9 @@ public final class GameObjectTypes {
                                     .setId(ResourceKey.create(Registries.ITEM, id))
                     )
             );
+            d.blockEntityType().ifPresent(type -> {
+                type.addSupportedBlock(b);
+            });
         });
 
         // Normal, nothing occurs after registration here...

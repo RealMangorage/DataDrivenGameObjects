@@ -9,6 +9,7 @@ import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
+import org.mangorage.datagenblocks.core.misc.TemplateType;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -44,12 +45,6 @@ public final class GameObjectType<T, P> {
         this(registryType, registry, createResourceKey, null, null);
     }
 
-
-
-    void addEntry(ResourceLocation id, GameObjectEntry entry) {
-        entries.put(id, entry.create(id));
-    }
-
     public GameObjectEntry get(ResourceLocation id) {
         return entries.get(id);
     }
@@ -65,15 +60,17 @@ public final class GameObjectType<T, P> {
     public void registerAll() {
         getEntries().forEach((id, obj) -> {
             typeRegistry.get(obj.getType(this)).ifPresent(codecReference -> {
-                final T baked = codecReference.value().codec().decode(JavaOps.INSTANCE, obj.getData(this)).result().get().getFirst();
+                if (obj.getTemplateType() == TemplateType.GAME_OBJECT) {
+                    final T baked = codecReference.value().codec().decode(JavaOps.INSTANCE, obj.getData(this)).result().get().getFirst();
 
-                if (createKey)
-                    Registry.register(registry, ResourceKey.create(registry.key(), id), baked);
-                else
-                    Registry.register(registry, id, baked);
+                    if (createKey)
+                        Registry.register(registry, ResourceKey.create(registry.key(), id), baked);
+                    else
+                        Registry.register(registry, id, baked);
 
-                if (postCodec != null)
-                    postRegistration.apply(id, baked, postCodec.decode(JavaOps.INSTANCE, obj.getPostData(this)).result().get().getFirst());
+                    if (postCodec != null)
+                        postRegistration.apply(id, baked, postCodec.decode(JavaOps.INSTANCE, obj.getPostData(this)).result().get().getFirst());
+                }
             });
         });
     }
@@ -87,13 +84,13 @@ public final class GameObjectType<T, P> {
                         try {
                             String fileName = p.toFile().getName();
                             String baseName = fileName.substring(0, fileName.lastIndexOf('.'));
-
-                            addEntry(
-                                    ResourceLocation.fromNamespaceAndPath(mod.getMetadata().getId(), baseName),
+                            ResourceLocation id = ResourceLocation.fromNamespaceAndPath(mod.getMetadata().getId(), baseName);
+                            entries.put(
+                                    id,
                                     GSON.fromJson(
                                             Files.newBufferedReader(p),
                                             GameObjectEntry.class
-                                    )
+                                    ).create(id)
                             );
                         } catch (IOException e) {
                             throw new IllegalStateException(e);
