@@ -1,23 +1,23 @@
 {
   "schemaVersion": 1,
-  "id": "datagenblocks",
+  "id": "ddgo",
   "version": "${version}",
-  "name": "DatagenBlocks",
+  "name": "Data Driven Game Objects",
   "description": "",
   "authors": [],
   "contact": {
-    "repo": "https://github.com/andre/DatagenBlocks"
+    "repo": "https://github.com/RealMangorage/DataDrivenGameObjects"
   },
   "license": "MIT",
   "icon": "assets/datagenblocks/icon.png",
   "environment": "*",
   "entrypoints": {
     "main": [
-      "org.mangorage.datagenblocks.DatagenBlocks"
+      "org.mangorage.ddgo.DDGO"
     ]
   },
   "mixins": [
-    "datagenblocks.mixins.json"
+    "ddgo.mixins.json"
   ],
   "depends": {
     "fabricloader": ">=${loader_version}",

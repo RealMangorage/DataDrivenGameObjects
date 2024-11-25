@@ -1,9 +1,4 @@
-package org.mangorage.datagenblocks.core.misc;
-
-import net.minecraft.client.particle.FireworkParticles;
-import net.minecraft.world.entity.projectile.FireworkRocketEntity;
-import net.minecraft.world.item.FireworkStarItem;
-import net.minecraft.world.item.Rarity;
+package org.mangorage.ddgo.core.misc;
 
 import java.util.HashMap;
 import java.util.Map;

@@ -1,4 +1,4 @@
-package org.mangorage.datagenblocks.core.types;
+package org.mangorage.ddgo.core.types;
 
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
@@ -10,8 +10,9 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.util.ExtraCodecs;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
-import org.mangorage.datagenblocks.core.misc.Constants;
-import org.mangorage.datagenblocks.core.tab.TabDisplayParameter;
+import org.mangorage.ddgo.core.misc.ComponentObject;
+import org.mangorage.ddgo.core.misc.Constants;
+import org.mangorage.ddgo.core.tab.TabDisplayParameter;
 
 public final class CreativeModeTabTypes {
     public static final ResourceKey<Registry<MapCodec<? extends CreativeModeTab>>> KEY = Constants.createRegistryKey("creative_mode_types");
@@ -26,11 +27,11 @@ public final class CreativeModeTabTypes {
             i -> i.group(
                     ItemStack.CODEC.fieldOf("icon").forGetter(a -> null),
                     TabDisplayParameter.CODEC.listOf().fieldOf("items").forGetter(a -> null),
-                    ExtraCodecs.NON_EMPTY_STRING.fieldOf("title").forGetter(a -> null)
+                    ComponentObject.CODEC.fieldOf("title").forGetter(a -> null)
             ).apply(i, (icon, items, title) -> {
                 return CreativeModeTab.builder(CreativeModeTab.Row.TOP, 0)
                         .icon(() -> icon)
-                        .title(Component.translatable(title))
+                        .title(title.getComponent())
                         .displayItems(new CreativeModeTab.DisplayItemsGenerator() {
                             @Override
                             public void accept(CreativeModeTab.ItemDisplayParameters display, CreativeModeTab.Output output) {

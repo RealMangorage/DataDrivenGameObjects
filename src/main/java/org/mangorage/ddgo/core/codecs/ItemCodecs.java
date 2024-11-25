@@ -1,4 +1,4 @@
-package org.mangorage.datagenblocks.core.codecs;
+package org.mangorage.ddgo.core.codecs;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;

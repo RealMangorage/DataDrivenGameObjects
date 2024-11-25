@@ -1,4 +1,4 @@
-package org.mangorage.datagenblocks.core;
+package org.mangorage.ddgo.core;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -9,17 +9,18 @@ import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
-import org.mangorage.datagenblocks.core.misc.TemplateType;
+import org.mangorage.ddgo.core.misc.TemplateType;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.function.BiConsumer;
+
+import static org.mangorage.ddgo.core.misc.Constants.MOD_ID;
 
 public final class GameObjectType<T, P> {
-    public static final Path DIRECTORY = FabricLoader.getInstance().getConfigDir().getParent().resolve("datagenblocks").resolve("data");
+    public static final Path DIRECTORY = FabricLoader.getInstance().getConfigDir().getParent().resolve(MOD_ID).resolve("data");
     public static final Gson GSON = new GsonBuilder().create();
 
     private final Map<ResourceLocation, GameObjectEntry> entries = new HashMap<>();

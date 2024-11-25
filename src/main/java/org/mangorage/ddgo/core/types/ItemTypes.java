@@ -1,14 +1,13 @@
-package org.mangorage.datagenblocks.core.types;
+package org.mangorage.ddgo.core.types;
 
 import com.mojang.serialization.MapCodec;
 import net.fabricmc.fabric.api.event.registry.FabricRegistryBuilder;
 import net.fabricmc.fabric.api.event.registry.RegistryAttribute;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
-import org.mangorage.datagenblocks.core.codecs.ItemCodecs;
-import org.mangorage.datagenblocks.core.misc.Constants;
+import org.mangorage.ddgo.core.codecs.ItemCodecs;
+import org.mangorage.ddgo.core.misc.Constants;
 
 public final class ItemTypes {
     public static final ResourceKey<Registry<MapCodec<? extends Item>>> KEY = Constants.createRegistryKey("item_types");

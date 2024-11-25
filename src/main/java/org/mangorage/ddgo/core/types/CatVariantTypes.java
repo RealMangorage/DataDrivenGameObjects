@@ -1,4 +1,4 @@
-package org.mangorage.datagenblocks.core.types;
+package org.mangorage.ddgo.core.types;
 
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
@@ -8,7 +8,7 @@ import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.animal.CatVariant;
-import org.mangorage.datagenblocks.core.misc.Constants;
+import org.mangorage.ddgo.core.misc.Constants;
 
 public final class CatVariantTypes {
     public static final ResourceKey<Registry<MapCodec<? extends CatVariant>>> KEY = Constants.createRegistryKey("cat_variant");

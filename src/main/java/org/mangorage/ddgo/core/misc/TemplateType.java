@@ -1,4 +1,4 @@
-package org.mangorage.datagenblocks.core.misc;
+package org.mangorage.ddgo.core.misc;
 
 import com.mojang.serialization.Codec;
 import net.minecraft.util.StringRepresentable;

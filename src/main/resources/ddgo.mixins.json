@@ -1,7 +1,7 @@
 {
   "required": true,
   "minVersion": "0.8",
-  "package": "org.mangorage.datagenblocks.mixin",
+  "package": "org.mangorage.ddgo.mixin",
   "compatibilityLevel": "JAVA_21",
   "mixins": [
     "BlockBehaviorMixin"

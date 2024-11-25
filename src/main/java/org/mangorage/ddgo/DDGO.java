@@ -1,28 +1,31 @@
-package org.mangorage.datagenblocks;
+package org.mangorage.ddgo;
 
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.loader.api.FabricLoader;
-import org.mangorage.datagenblocks.core.types.CatVariantTypes;
-import org.mangorage.datagenblocks.core.types.CreativeModeTabTypes;
-import org.mangorage.datagenblocks.core.types.ItemTypes;
-import org.mangorage.datagenblocks.core.GameObjectTypes;
-import org.mangorage.datagenblocks.core.types.FrogVariantTypes;
+import org.mangorage.ddgo.core.misc.Constants;
+import org.mangorage.ddgo.core.types.CatVariantTypes;
+import org.mangorage.ddgo.core.types.CreativeModeTabTypes;
+import org.mangorage.ddgo.core.types.ItemTypes;
+import org.mangorage.ddgo.core.GameObjectTypes;
+import org.mangorage.ddgo.core.types.FrogVariantTypes;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
-public class DatagenBlocks implements ModInitializer {
+import static org.mangorage.ddgo.core.misc.Constants.MOD_ID;
 
-    public DatagenBlocks() {
+public class DDGO implements ModInitializer {
+
+    public DDGO() {
         // Bootstrap the Registries first!
         GameObjectTypes.bootstrap();
         ItemTypes.bootstrap();
         CreativeModeTabTypes.bootstrap();
         CatVariantTypes.bootstrap();
         FrogVariantTypes.bootstrap();
-
-        Path directory = FabricLoader.getInstance().getConfigDir().getParent().resolve("datagenblocks").resolve("data");
+        
+        Path directory = FabricLoader.getInstance().getConfigDir().getParent().resolve(MOD_ID).resolve("data");
 
         if (!Files.exists(directory)) {
             try {

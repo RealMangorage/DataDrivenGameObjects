@@ -1,11 +1,11 @@
-package org.mangorage.datagenblocks.core.misc;
+package org.mangorage.ddgo.core.misc;
 
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 
 public final class Constants {
-    public static final String MOD_ID = "datagenblocks";
+    public static final String MOD_ID = "ddgo";
 
     public static ResourceLocation create(String id) {
         return ResourceLocation.fromNamespaceAndPath(MOD_ID, id);

@@ -1,10 +1,10 @@
-package org.mangorage.datagenblocks.core;
+package org.mangorage.ddgo.core;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.JsonAdapter;
 import net.minecraft.resources.ResourceLocation;
-import org.mangorage.datagenblocks.core.misc.TemplateType;
-import org.mangorage.datagenblocks.core.misc.Util;
+import org.mangorage.ddgo.core.misc.TemplateType;
+import org.mangorage.ddgo.core.misc.Util;
 import java.util.Map;
 
 public record GameObjectEntry(

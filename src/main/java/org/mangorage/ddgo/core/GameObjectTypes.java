@@ -1,13 +1,11 @@
-package org.mangorage.datagenblocks.core;
+package org.mangorage.ddgo.core;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.PrimitiveCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.event.registry.FabricRegistryBuilder;
 import net.fabricmc.fabric.api.event.registry.RegistryAttribute;
-import net.minecraft.client.renderer.RenderType;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
@@ -15,14 +13,12 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.level.block.BlockTypes;
 import net.minecraft.world.level.block.entity.BlockEntityType;
-import net.minecraft.world.level.block.state.BlockState;
-import org.mangorage.datagenblocks.core.misc.Constants;
-import org.mangorage.datagenblocks.core.types.CatVariantTypes;
-import org.mangorage.datagenblocks.core.types.CreativeModeTabTypes;
-import org.mangorage.datagenblocks.core.types.ItemTypes;
-import org.mangorage.datagenblocks.core.types.FrogVariantTypes;
+import org.mangorage.ddgo.core.misc.Constants;
+import org.mangorage.ddgo.core.types.CatVariantTypes;
+import org.mangorage.ddgo.core.types.CreativeModeTabTypes;
+import org.mangorage.ddgo.core.types.ItemTypes;
+import org.mangorage.ddgo.core.types.FrogVariantTypes;
 
 import java.util.Optional;
 

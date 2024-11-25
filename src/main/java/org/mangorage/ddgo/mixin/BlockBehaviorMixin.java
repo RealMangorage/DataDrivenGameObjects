@@ -1,4 +1,4 @@
-package org.mangorage.datagenblocks.mixin;
+package org.mangorage.ddgo.mixin;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
